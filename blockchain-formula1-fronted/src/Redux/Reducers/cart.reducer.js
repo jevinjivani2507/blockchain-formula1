@@ -1,6 +1,7 @@
 import { PLAYERS_LIST } from "../ActionTypes";
 import { ADD_TO_CART } from "../ActionTypes";
 import { REMOVE_FROM_CART } from "../ActionTypes";
+import { SELECTED_PLAYERS } from "../ActionTypes";
 
 export const cart = (
   state = {

@@ -3,27 +3,23 @@ import PlayerInfo from "./PlayerInfo";
 import axios from "axios";
 import config from "../config";
 import { useDispatch, useSelector } from "react-redux";
-import { PLAYERS_LIST } from "../Redux/ActionTypes";
+import { PLAYERS_LIST, SELECTED_PLAYERS } from "../Redux/ActionTypes";
 // import api from "../utilities/api";
 import fetchProducts from "../utilities/api";
 import Card from "./Card";
 
 const PlayerCart = () => {
-
   const dispatch = useDispatch();
   const playersList = useSelector((state) => state.cart.playersList);
+  const selectdPlayers = useSelector((state) => state.cart.selectdPlayers);
 
-  // console.log(playersList);
-  
   const [players, setPlayers] = useState([]);
-  
+
   useEffect(() => {
     // console.log(fetchProducts());
     fetchProducts(dispatch);
-
+    console.log(selectdPlayers);
   }, []);
-
-  
 
   return (
     <div className="flex p-10 gap-10 h-[92vh]">
@@ -40,12 +36,12 @@ const PlayerCart = () => {
           {playersList.map((player) => (
             <PlayerInfo
               key={player.permanentNumber}
+              id={player.permanentNumber}
               name={player.givenName + " " + player.familyName}
               image={player.image}
               code={player.code}
               price={player.price}
               color={player.color}
-
             />
           ))}
         </div>
@@ -53,11 +49,17 @@ const PlayerCart = () => {
 
       <div className="w-4/12 bg-primary rounded-3xl p-10">
         <div className="flex justify-center flex-wrap">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+          {selectdPlayers.map((player) => (
+            <Card
+            key={player.permanentNumber}
+            id={player.permanentNumber}
+            name={player.name}
+            image={player.image}
+            code={player.code}
+            price={player.price}
+            color={player.color}
+            />
+          ))}
         </div>
       </div>
     </div>

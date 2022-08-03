@@ -5,27 +5,35 @@ import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../Redux/ActionTypes";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const PlayerInfo = (props) => {
   const dispatch = useDispatch();
   const selectdPlayers = useSelector((state) => state.cart.selectdPlayers);
 
   const [isAdded, setIsAdded] = useState(false);
 
+  const notify = () => toast("You can't add more then 5 players");
+
   const addPlayer = (e) => {
     e.preventDefault();
-    if (!isAdded) {
-      // console.log(props);
-      dispatch({ type: ADD_TO_CART, payload: props });
+    if (selectdPlayers.length <= 4) {
+      if (!isAdded) {
+        // console.log(props);
+        dispatch({ type: ADD_TO_CART, payload: props });
+      } else {
+        // console.log("Yay, I got clicked");
+        dispatch({ type: REMOVE_FROM_CART, payload: props });
+      }
+      setIsAdded(!isAdded);
     } else {
-      console.log("Yay, I got clicked");
-      dispatch({ type: REMOVE_FROM_CART, payload: props });
+      notify();
     }
-    setIsAdded(!isAdded);
-    
   };
 
   useEffect(() => {
-    console.log(selectdPlayers);
+    // console.log(selectdPlayers);
   }, [selectdPlayers]);
 
   return (
@@ -33,6 +41,7 @@ const PlayerInfo = (props) => {
       <div className="flex px-6 py-5 w-full rounded-md my-1 mx-2 justify-between">
         <div className="flex items-center">
           <img className="h-10 w-[5vh]" src={props.image} alt="" />
+
           <div className="mx-2">
             <div className="flex justify-center font-bold text-xs px-1 bg-gray-100 rounded-md">
               DR
@@ -62,6 +71,18 @@ const PlayerInfo = (props) => {
           </button>
         </div>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        theme="dark"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
