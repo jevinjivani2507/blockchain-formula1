@@ -14,21 +14,22 @@ const PlayerInfo = (props) => {
 
   const [isAdded, setIsAdded] = useState(false);
 
-  const notify = () => toast("You can't add more then 5 players");
+  const notify = () => toast.error("You can't add more then 5 Players!");
 
   const addPlayer = (e) => {
     e.preventDefault();
-    if (selectdPlayers.length <= 4) {
-      if (!isAdded) {
-        // console.log(props);
+    if (!isAdded) {
+      // console.log(props);
+      if (selectdPlayers.length <= 4) {
         dispatch({ type: ADD_TO_CART, payload: props });
+        setIsAdded(!isAdded);
       } else {
-        // console.log("Yay, I got clicked");
-        dispatch({ type: REMOVE_FROM_CART, payload: props });
+        notify();
       }
-      setIsAdded(!isAdded);
     } else {
-      notify();
+      // console.log("Yay, I got clicked");
+      dispatch({ type: REMOVE_FROM_CART, payload: props });
+      setIsAdded(!isAdded);
     }
   };
 
@@ -74,6 +75,7 @@ const PlayerInfo = (props) => {
       <ToastContainer
         position="bottom-right"
         theme="dark"
+        type="error"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
