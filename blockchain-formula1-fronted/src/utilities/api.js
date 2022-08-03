@@ -13,7 +13,7 @@ const images = importAll(
   require.context("../photo", false, /\.(png|jpe?g|svg)$/)
 );
 // console.log(images);
-console.log(teamMapping);
+// console.log(teamMapping);
 
 const api = async (dispatch) => {
   const response = await axios.get(

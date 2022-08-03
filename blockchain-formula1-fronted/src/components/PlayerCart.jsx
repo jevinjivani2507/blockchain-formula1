@@ -13,7 +13,7 @@ const PlayerCart = () => {
   const dispatch = useDispatch();
   const playersList = useSelector((state) => state.cart.playersList);
 
-  console.log(playersList);
+  // console.log(playersList);
   
   const [players, setPlayers] = useState([]);
   
