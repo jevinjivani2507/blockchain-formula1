@@ -3,7 +3,7 @@ import player from "../images/player.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../Redux/ActionTypes";
+import { ADD_TO_CART, REMOVE_FROM_CART, TOTAL_POINTS } from "../Redux/ActionTypes";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,20 +11,27 @@ import "react-toastify/dist/ReactToastify.css";
 const PlayerInfo = (props) => {
   const dispatch = useDispatch();
   const selectdPlayers = useSelector((state) => state.cart.selectdPlayers);
+  const totalPoints = useSelector((state) => state.cart.totalPoints);
 
   const [isAdded, setIsAdded] = useState(false);
 
-  const notify = () => toast.error("You can't add more then 5 Players!");
+  const fivePlayers = () => toast.error("You can't add more then 5 Players!");
+  const maximumLimit = () => toast.error("Maximum Limit Exceeded!");
 
   const addPlayer = (e) => {
     e.preventDefault();
     if (!isAdded) {
       // console.log(props);
-      if (selectdPlayers.length <= 4) {
-        dispatch({ type: ADD_TO_CART, payload: props });
-        setIsAdded(!isAdded);
+      if (selectdPlayers.length + 1 <= 5) {
+        if(totalPoints + props.price <1000){
+          dispatch({ type: ADD_TO_CART, payload: props });
+          setIsAdded(!isAdded);
+        }else{
+          maximumLimit();
+        }
+          
       } else {
-        notify();
+        fivePlayers();
       }
     } else {
       // console.log("Yay, I got clicked");
@@ -35,6 +42,7 @@ const PlayerInfo = (props) => {
 
   useEffect(() => {
     // console.log(selectdPlayers);
+    // console.log(totalPoints);
   }, [selectdPlayers]);
 
   return (

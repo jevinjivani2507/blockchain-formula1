@@ -3,7 +3,7 @@ import PlayerInfo from "./PlayerInfo";
 import axios from "axios";
 import config from "../config";
 import { useDispatch, useSelector } from "react-redux";
-import { PLAYERS_LIST, SELECTED_PLAYERS } from "../Redux/ActionTypes";
+import { PLAYERS_LIST, SELECTED_PLAYERS, TOTAL_POINTS } from "../Redux/ActionTypes";
 // import api from "../utilities/api";
 import fetchProducts from "../utilities/api";
 import Card from "./Card";
@@ -12,21 +12,23 @@ const PlayerCart = () => {
   const dispatch = useDispatch();
   const playersList = useSelector((state) => state.cart.playersList);
   const selectdPlayers = useSelector((state) => state.cart.selectdPlayers);
+  const totalPoints = useSelector((state) => state.cart.totalPoints);
 
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     // console.log(fetchProducts());
     fetchProducts(dispatch);
-    console.log(selectdPlayers);
+    // console.log(selectdPlayers);
   }, []);
 
   return (
     <div className="flex p-10 gap-10 h-[92vh]">
       <div className="w-8/12 bg-white overflow-scroll scrollbar-hide rounded-3xl">
         <div className="top-0 sticky h-40 mb-2">
-          <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex items-center">
+          <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex items-center justify-between">
             <h1>Contant</h1>
+            <div>Total Points : {totalPoints}</div>
           </header>
           <div className="text-sm h-[30%] bg-gray-200 flex items-center">
             Sub-Header

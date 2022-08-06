@@ -23,6 +23,7 @@ const api = async (dispatch) => {
     (driver) => {
       return {
         ...driver,
+        type: "driver",
         image: images[driver.permanentNumber+".png"],
         code: playerMapping[driver.permanentNumber].code,
         constructorId: playerMapping[driver.permanentNumber].constructorId,
