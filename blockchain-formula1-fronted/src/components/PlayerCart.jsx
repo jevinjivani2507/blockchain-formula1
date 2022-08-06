@@ -3,10 +3,17 @@ import PlayerInfo from "./PlayerInfo";
 import axios from "axios";
 import config from "../config";
 import { useDispatch, useSelector } from "react-redux";
-import { PLAYERS_LIST, SELECTED_PLAYERS, TOTAL_POINTS } from "../Redux/ActionTypes";
+import {
+  PLAYERS_LIST,
+  SELECTED_PLAYERS,
+  TOTAL_POINTS,
+} from "../Redux/ActionTypes";
 // import api from "../utilities/api";
 import fetchProducts from "../utilities/api";
 import Card from "./Card";
+
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const PlayerCart = () => {
   const dispatch = useDispatch();
@@ -26,9 +33,14 @@ const PlayerCart = () => {
     <div className="flex p-10 gap-10 h-[92vh]">
       <div className="w-8/12 bg-white overflow-scroll scrollbar-hide rounded-3xl">
         <div className="top-0 sticky h-40 mb-2">
-          <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex items-center justify-between">
-            <h1>Contant</h1>
-            <div>Total Points : {totalPoints}</div>
+          <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex items-center justify-center">
+            <Box sx={{ width: "50%"}}>
+              <LinearProgress
+                className="bg-green-100"
+                variant="determinate" color="error"
+                value={totalPoints / 10}
+              />
+            </Box>
           </header>
           <div className="text-sm h-[30%] bg-gray-200 flex items-center">
             Sub-Header
@@ -53,13 +65,13 @@ const PlayerCart = () => {
         <div className="flex justify-center flex-wrap">
           {selectdPlayers.map((player) => (
             <Card
-            key={player.permanentNumber}
-            id={player.permanentNumber}
-            name={player.name}
-            image={player.image}
-            code={player.code}
-            price={player.price}
-            color={player.color}
+              key={player.permanentNumber}
+              id={player.permanentNumber}
+              name={player.name}
+              image={player.image}
+              code={player.code}
+              price={player.price}
+              color={player.color}
             />
           ))}
         </div>
