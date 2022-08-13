@@ -1,0 +1,46 @@
+[
+    {
+        "name": "F1FantacyTeam1",
+        "player": "",
+        "d1": 23,
+        "d2": 14,
+        "d3": 77,
+        "d4": 10,
+        "d5": 6,
+        "team": "alfa",
+        "captain": 23
+    },
+    {
+        "name": "F1FantacyTeam2",
+        "player": "",
+        "d1": 23,
+        "d2": 14,
+        "d3": 77,
+        "d4": 10,
+        "d5": 6,
+        "team": "alfa",
+        "captain": 23
+    },
+    {
+        "name": "F1FantacyTeam3",
+        "player": "",
+        "d1": 23,
+        "d2": 14,
+        "d3": 77,
+        "d4": 10,
+        "d5": 6,
+        "team": "alfa",
+        "captain": 23
+    },
+    {
+        "name": "F1FantacyTeam4",
+        "player": "",
+        "d1": 23,
+        "d2": 14,
+        "d3": 77,
+        "d4": 10,
+        "d5": 6,
+        "team": "alfa",
+        "captain": 23
+    }
+]
