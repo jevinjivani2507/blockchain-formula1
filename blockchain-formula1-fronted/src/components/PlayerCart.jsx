@@ -4,20 +4,11 @@ import ConstructorInfo from "./ConstructorInfo";
 import axios from "axios";
 import config from "../config";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  PLAYERS_LIST,
-  SELECTED_PLAYERS,
-  TOTAL_POINTS,
-  CONSTRUCTOR_LIST,
-} from "../Redux/ActionTypes";
 // import api from "../utilities/api";
 import fetchProducts from "../utilities/api";
 import Card from "./Card";
 
-import Box from "@mui/material/Box";
-import LinearProgress from "@mui/material/LinearProgress";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Progress, Button } from "@nextui-org/react";
 
 const PlayerCart = () => {
   const dispatch = useDispatch();
@@ -25,6 +16,16 @@ const PlayerCart = () => {
   const selectdPlayers = useSelector((state) => state.cart.selectdPlayers);
   const totalPoints = useSelector((state) => state.cart.totalPoints);
   const constructorList = useSelector((state) => state.cart.constructorList);
+
+  const [displayList, setDisplayList] = useState("players");
+
+  const changeToPlayers = () => {
+    setDisplayList("players");
+  }
+
+  const changeToConstructors = () => {
+    setDisplayList("constructors");
+  }
 
   useEffect(() => {
     // console.log(fetchProducts());
@@ -38,44 +39,35 @@ const PlayerCart = () => {
       <div className="w-8/12 bg-white overflow-scroll scrollbar-hide rounded-3xl">
         <div className="top-0 sticky h-40 mb-2">
           <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex items-center justify-center">
-            <Box sx={{ width: "50%" }}>
-              <LinearProgress
-                className="bg-green-100"
-                variant="determinate"
-                value={totalPoints / 10}
-              />
-            </Box>
+            <Progress value={totalPoints / 10} color="primary" />
           </header>
           <div className="text-sm h-[30%] bg-gray-200 flex items-center">
-            <Tabs
-              value={selectdPlayers}
-              onChange={(e, value) => console.log(value)}
-              aria-label="disabled tabs example"
-            >
-              <Tab label="Active" />
-              <Tab label="Active" />
-            </Tabs>
+            <Button.Group size="sm">
+              <Button onClick={changeToPlayers}>Players</Button>
+              <Button onClick={changeToConstructors}>Constructors</Button>
+            </Button.Group>
           </div>
         </div>
         <div className="">
-          {playersList.map((player) => (
-            <PlayerInfo
-              key={player.permanentNumber}
-              id={player.permanentNumber}
-              name={player.givenName + " " + player.familyName}
-              image={player.image}
-              code={player.code}
-              price={player.price}
-              color={player.color}
-            />
-          ))}
-          {constructorList.map((constructor) => (
-            <ConstructorInfo
-              key={constructor.constructorId}
-              id={constructor.constructorId}
-              name={constructor.name}
-            />
-          ))}
+          {displayList === "players"
+            ? playersList.map((player) => (
+                <PlayerInfo
+                  key={player.permanentNumber}
+                  id={player.permanentNumber}
+                  name={player.givenName + " " + player.familyName}
+                  image={player.image}
+                  code={player.code}
+                  price={player.price}
+                  color={player.color}
+                />
+              ))
+            : constructorList.map((constructor) => (
+                <ConstructorInfo
+                  key={constructor.constructorId}
+                  id={constructor.constructorId}
+                  name={constructor.name}
+                />
+              ))}
         </div>
       </div>
 

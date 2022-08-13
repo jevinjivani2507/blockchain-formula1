@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from "@nextui-org/react";
 
 const Navbar = () => {
   return (
@@ -8,9 +9,9 @@ const Navbar = () => {
               Logo
             </div>
             <div className="flex">
-              <h1 className="navbar-item">Dashboard</h1>
-              <h1 className="navbar-item">LeaderBoard</h1>
-              <h1 className="navbar-item">How to Play</h1>
+              <Button color="primary" variant="contained" auto> Dashboard </Button>
+              <Button color="primary" variant="contained" auto> LeaderBoard </Button>
+              <Button color="primary" variant="contained" auto> How to Play </Button>
             </div>
         </div>
     </div>

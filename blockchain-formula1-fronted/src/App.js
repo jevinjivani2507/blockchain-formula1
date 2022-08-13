@@ -3,32 +3,48 @@ import "./App.css";
 import Login from "./components/Login";
 import PlayerCart from "./components/PlayerCart";
 import Navbar from "./components/Navbar";
-import api from "./utilities/api";
-import { ThemeProvider } from "@mui/system";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, NextUIProvider, Text } from "@nextui-org/react"
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#FA7000',
+  type: "light", // it could be "light" or "dark"
+  theme: {
+    colors: {
+      // brand colors
+      primaryLight: '#FAF700',
+      primaryLightHover: '#FAF700',
+      primaryLightActive: '#FAF700',
+      primaryLightContrast: '#FAF700',
+      primary: '#FA1700',
+      primaryBorder: '$green500',
+      primaryBorderHover: '$green600',
+      primarySolidHover: '$green700',
+      primarySolidContrast: '$white',
+      primaryShadow: '$green500',
+
+      gradient: 'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
+      link: '#5E1DAD',
+
+      // you can also create your own color
+      myColor: '#ff4ecd'
+
+      // ...  more colors
     },
-    secondary: {
-      main: '#edf2ff',
-    },
-  },
-});
+    space: {},
+    fonts: {}
+  }
+})
 
 function App() {
 
   return (
-    <ThemeProvider theme={theme}>
+    <NextUIProvider theme={theme}>
     <div className="App bg-[#121212] relative">
       <Navbar />
       <div className="">
         <PlayerCart />
       </div>
     </div>
-    </ThemeProvider>
+    </NextUIProvider>
   );
 }
 
