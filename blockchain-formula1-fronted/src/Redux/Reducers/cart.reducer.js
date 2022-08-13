@@ -1,4 +1,5 @@
 import { PLAYERS_LIST } from "../ActionTypes";
+import { CONSTRUCTOR_LIST } from "../ActionTypes";
 import { ADD_TO_CART } from "../ActionTypes";
 import { REMOVE_FROM_CART } from "../ActionTypes";
 import { SELECTED_PLAYERS } from "../ActionTypes";
@@ -8,6 +9,7 @@ export const cart = (
   state = {
     playersList: [],
     selectdPlayers: [],
+    constructorList: [],
     totalPoints: 0,
   },
   action
@@ -17,6 +19,11 @@ export const cart = (
       return {
         ...state,
         playersList: action.payload,
+      };
+    case CONSTRUCTOR_LIST:
+      return {
+        ...state,
+        constructorList: action.payload,
       };
     case ADD_TO_CART:
       return {
