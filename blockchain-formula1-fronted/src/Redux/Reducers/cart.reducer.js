@@ -1,15 +1,18 @@
-import { PLAYERS_LIST } from "../ActionTypes";
-import { CONSTRUCTOR_LIST } from "../ActionTypes";
-import { ADD_TO_CART } from "../ActionTypes";
-import { REMOVE_FROM_CART } from "../ActionTypes";
-import { SELECTED_PLAYERS } from "../ActionTypes";
-import { TOTAL_POINTS } from "../ActionTypes";
+import {
+  PLAYERS_LIST,
+  CONSTRUCTOR_LIST,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  ADD_CONSTRUCTOR,
+  REMOVE_CONSTRUCTOR
+} from "../ActionTypes";
 
 export const cart = (
   state = {
     playersList: [],
     selectdPlayers: [],
     constructorList: [],
+    selectdConstructor: [],
     totalPoints: 0,
   },
   action
@@ -31,6 +34,12 @@ export const cart = (
         selectdPlayers: [...state.selectdPlayers, action.payload],
         totalPoints: state.totalPoints + action.payload.price,
       };
+    case ADD_CONSTRUCTOR:
+      return {
+        ...state,
+        selectdConstructor: [...state.selectdConstructor, action.payload],
+        totalPoints: state.totalPoints + action.payload.price,
+      };
     case REMOVE_FROM_CART:
       return {
         ...state,
@@ -39,7 +48,14 @@ export const cart = (
         ),
         totalPoints: state.totalPoints - action.payload.price,
       };
-
+    case REMOVE_CONSTRUCTOR:
+      return {
+        ...state,
+        selectdConstructor: state.selectdConstructor.filter(
+          (constructor) => constructor.id !== action.payload.id
+        ),
+        totalPoints: state.totalPoints - action.payload.price,
+      };
     default:
       return state;
   }

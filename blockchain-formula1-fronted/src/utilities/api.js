@@ -8,17 +8,19 @@ import importAll from "./importAll";
 import { playerMapping, teamMapping } from "./mapping";
 
 const images = importAll(
-  require.context("../photo", false, /\.(png|jpe?g|svg)$/)
+  require.context("../photos/Players", false, /\.(png|jpe?g|svg)$/)
 );
-// console.log(images);
-// console.log(teamMapping);
+
+const constructorImages = importAll(
+  require.context("../photos/Constructor", false, /\.(png|jpe?g|svg)$/)
+);
 
 const api = async (dispatch) => {
   const response = await axios.get(config.URL_DRIVERS);
 
   const constructors = await axios.get(config.URL_CONSTRUCTORS);
 
-  const formattedData = response.data.MRData.DriverTable.Drivers.map(
+  const formattedPlayerData = response.data.MRData.DriverTable.Drivers.map(
     (driver) => {
       return {
         ...driver,
@@ -32,20 +34,35 @@ const api = async (dispatch) => {
             .color,
       };
     }
+  )
+  .filter(
+    (driver) =>  driver.permanentNumber !== "27"
   );
 
-  // console.log(response.data.MRData.DriverTable.Drivers);
-  // console.log(constructors.data.MRData.ConstructorTable.Constructors);
+  const formattedConstructorData = constructors.data.MRData.ConstructorTable.Constructors.map(
+    (constructor) => {
+      return {
+        ...constructor,
+        type: "constructor",
+        image: constructorImages[constructor.constructorId + ".png"],
+        price: teamMapping[constructor.constructorId].price,
+      };
+    }
+  )
+  
+  console.log(formattedPlayerData);
+  console.log(formattedConstructorData);
+
   dispatch(
     {
       type: PLAYERS_LIST,
-      payload: formattedData,
+      payload: formattedPlayerData,
     }
   );
   dispatch(
     {
       type: CONSTRUCTOR_LIST,
-      payload: constructors.data.MRData.ConstructorTable.Constructors,
+      payload: formattedConstructorData,
     }
   );
 };

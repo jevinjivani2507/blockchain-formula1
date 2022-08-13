@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import player from "../images/player.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_TO_CART, REMOVE_FROM_CART, TOTAL_POINTS } from "../Redux/ActionTypes";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../Redux/ActionTypes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

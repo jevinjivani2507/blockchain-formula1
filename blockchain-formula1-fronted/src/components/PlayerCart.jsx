@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PlayerInfo from "./PlayerInfo";
 import ConstructorInfo from "./ConstructorInfo";
-import axios from "axios";
-import config from "../config";
 import { useDispatch, useSelector } from "react-redux";
-// import api from "../utilities/api";
 import fetchProducts from "../utilities/api";
 import Card from "./Card";
 
@@ -14,6 +11,9 @@ const PlayerCart = () => {
   const dispatch = useDispatch();
   const playersList = useSelector((state) => state.cart.playersList);
   const selectdPlayers = useSelector((state) => state.cart.selectdPlayers);
+  const selectdConstructor = useSelector(
+    (state) => state.cart.selectdConstructor
+  );
   const totalPoints = useSelector((state) => state.cart.totalPoints);
   const constructorList = useSelector((state) => state.cart.constructorList);
 
@@ -21,11 +21,11 @@ const PlayerCart = () => {
 
   const changeToPlayers = () => {
     setDisplayList("players");
-  }
+  };
 
   const changeToConstructors = () => {
     setDisplayList("constructors");
-  }
+  };
 
   useEffect(() => {
     // console.log(fetchProducts());
@@ -41,7 +41,7 @@ const PlayerCart = () => {
           <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex items-center justify-center">
             <Progress value={totalPoints / 10} color="primary" />
           </header>
-          <div className="text-sm h-[30%] bg-gray-200 flex items-center">
+          <div className="flex justify-center h-[30%] bg-gray-200 items-center">
             <Button.Group size="sm">
               <Button onClick={changeToPlayers}>Players</Button>
               <Button onClick={changeToConstructors}>Constructors</Button>
@@ -65,6 +65,8 @@ const PlayerCart = () => {
                 <ConstructorInfo
                   key={constructor.constructorId}
                   id={constructor.constructorId}
+                  image={constructor.image}
+                  price={constructor.price}
                   name={constructor.name}
                 />
               ))}
@@ -72,18 +74,33 @@ const PlayerCart = () => {
       </div>
 
       <div className="w-4/12 bg-primary rounded-3xl p-10">
-        <div className="flex justify-center flex-wrap">
-          {selectdPlayers.map((player) => (
-            <Card
-              key={player.permanentNumber}
-              id={player.permanentNumber}
-              name={player.name}
-              image={player.image}
-              code={player.code}
-              price={player.price}
-              color={player.color}
-            />
-          ))}
+        <div>
+          <div className="flex justify-center flex-wrap">
+            {selectdPlayers.map((player) => (
+              <Card
+                key={player.permanentNumber}
+                id={player.permanentNumber}
+                name={player.name}
+                image={player.image}
+                code={player.code}
+                price={player.price}
+                color={player.color}
+              />
+            ))}
+          </div>
+          <div className="flex justify-center flex-wrap">
+            {selectdConstructor.map((constructor) => (
+              <Card
+                key={constructor.permanentNumber}
+                id={constructor.permanentNumber}
+                name={constructor.name}
+                image={constructor.image}
+                code={constructor.code}
+                price={constructor.price}
+                color={constructor.color}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
