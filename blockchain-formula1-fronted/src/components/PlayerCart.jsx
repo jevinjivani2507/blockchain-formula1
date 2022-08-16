@@ -4,10 +4,38 @@ import ConstructorInfo from "./ConstructorInfo";
 import { useDispatch, useSelector } from "react-redux";
 import fetchProducts from "../utilities/api";
 import Card from "./Card";
-
-import { Progress, Button } from "@nextui-org/react";
+import { ethers } from "ethers";
+import { Progress, Button, Modal } from "@nextui-org/react";
+import F1FantacyTeam from "../contracts/F1FantacyTeam.json";
+import config from "../config";
 
 const PlayerCart = () => {
+  //metamask config
+  const [isConnected, setIsConnected] = useState(false);
+  const [hasMetamask, setHasMetamask] = useState(false);
+  const [signer, setSigner] = useState(undefined);
+
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      setHasMetamask(true);
+    }
+  });
+
+  async function connect() {
+    if (typeof window.ethereum !== "undefined") {
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        setIsConnected(true);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        setSigner(provider.getSigner());
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      setIsConnected(false);
+    }
+  }
+
   const dispatch = useDispatch();
   const playersList = useSelector((state) => state.cart.playersList);
   const selectdPlayers = useSelector((state) => state.cart.selectdPlayers);
@@ -25,6 +53,45 @@ const PlayerCart = () => {
 
   const changeToConstructors = () => {
     setDisplayList("constructors");
+  };
+
+  
+
+  const submitTeam = async () => {
+
+    let team = {};
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+
+    const f1FantacyTeam = new ethers.Contract(
+      config.CONTRACT_ADDRESS,
+      F1FantacyTeam.abi,
+      signer
+    );
+
+    const joiningFees = await f1FantacyTeam.JOININGFEES();
+
+    team.d1 = selectdPlayers[0].id;
+    team.d2 = selectdPlayers[1].id;
+    team.d3 = selectdPlayers[2].id;
+    team.d4 = selectdPlayers[3].id;
+    team.d5 = selectdPlayers[4].id;
+    team.captain = selectdPlayers[0].id;
+    team.team = selectdConstructor[0].id;
+    team.name = "F1FantacyTeam1";
+    team.player = (await provider.listAccounts())[0];
+
+    const transaction = await f1FantacyTeam.participate(team, {value: joiningFees});
+    console.log(transaction.wait(1))
+    const transactionReceipt = await transaction.wait(1);
+    const player = transactionReceipt.events[0].args.player;
+    const fantacyTeam = transactionReceipt.events[0].args.fantacyTeam;
+
+    console.log("Player : " , player);
+    // console.log(fantacyTeam);
+
   };
 
   useEffect(() => {
@@ -74,6 +141,9 @@ const PlayerCart = () => {
       </div>
 
       <div className="w-4/12 bg-primary rounded-3xl p-10">
+        <div className="flex justify-center">
+          <h1 className="text-white text-2xl">Team Name</h1>
+        </div>
         <div>
           <div className="flex justify-center flex-wrap">
             {selectdPlayers.map((player) => (
@@ -100,6 +170,13 @@ const PlayerCart = () => {
                 color={constructor.color}
               />
             ))}
+          </div>
+          <div className="flex justify-center mt-8">
+            {selectdPlayers.length + selectdConstructor.length === 6 && (
+              <Button light color="secondary" onPress={submitTeam}>
+                Submit
+              </Button>
+            )}
           </div>
         </div>
       </div>

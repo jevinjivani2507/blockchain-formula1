@@ -50,8 +50,8 @@ const api = async (dispatch) => {
     }
   )
   
-  console.log(formattedPlayerData);
-  console.log(formattedConstructorData);
+  // console.log(formattedPlayerData);
+  // console.log(formattedConstructorData);
 
   dispatch(
     {

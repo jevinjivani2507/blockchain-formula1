@@ -23,16 +23,16 @@ const playerMapping = {
 }
 
 const teamMapping = {
-    "williams" : {color: "bg-[#37BEDD]", price: 75},
-    "alpine" : {color: "bg-[#2393D0]", price: 126},
-    "alfa" : {color: "bg-[#C82D4A]", price: 97},
-    "alphatauri" : {color: "bg-[#5E8FAA]", price: 129},
-    "mercedes" : {color: "bg-[#6CD2BE]", price: 188},
-    "ferrari" : {color: "bg-[#F81436]", price: 301},
-    "mclaren" : {color: "bg-[#F58121]", price: 159},
-    "red_bull" : {color: "bg-[#3770C6]", price: 183},
-    "aston_martin" : {color: "bg-[#348C74]", price: 114},
-    "haas" : {color: "bg-[#B6BBBC]", price: 61},
+    "williams" : {color: "bg-[#37BEDD]", price: 71},
+    "alpine" : {color: "bg-[#2393D0]", price: 140},
+    "alfa" : {color: "bg-[#C82D4A]", price: 101},
+    "alphatauri" : {color: "bg-[#5E8FAA]", price: 63},
+    "mercedes" : {color: "bg-[#6CD2BE]", price: 337},
+    "ferrari" : {color: "bg-[#F81436]", price: 258},
+    "mclaren" : {color: "bg-[#F58121]", price: 175},
+    "red_bull" : {color: "bg-[#3770C6]", price: 337},
+    "aston_martin" : {color: "bg-[#348C74]", price: 110},
+    "haas" : {color: "bg-[#B6BBBC]", price: 85},
 }
 
 export {playerMapping, teamMapping};
