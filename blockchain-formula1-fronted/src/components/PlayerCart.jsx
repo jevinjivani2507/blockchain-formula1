@@ -10,7 +10,10 @@ import F1FantacyTeam from "../contracts/F1FantacyTeam.json";
 import config from "../config";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 const PlayerCart = () => {
   //metamask config
@@ -115,7 +118,6 @@ const PlayerCart = () => {
               <h6 className="text-2xl font-bold">{1000 - totalPoints}/1000</h6>
             </div>
             <Progress value={totalPoints / 10} color="primary" />
-            
           </header>
           <div className="flex justify-center h-[30%] bg-gray-200 items-center">
             <Button.Group size="sm">
@@ -151,17 +153,34 @@ const PlayerCart = () => {
 
       <div className="w-4/12 bg-primary rounded-3xl p-10">
         <div className="flex justify-center">
-          <h1 className="text-white text-2xl">
+          <h1 className="text-white text-2xl flex items-center">
             {editName ? (
-              <Input animated={false} initialValue={teamName} color="error" />
+              <form action="post">
+                <Input
+                  animated={false}
+                  initialValue={teamName}
+                  onChange={(e) => {
+                    setTeamName(e.target.value);
+                  }}
+                  color="error"
+                />
+              </form>
             ) : (
               teamName
             )}
-            <FontAwesomeIcon
-              icon={faPenToSquare}
-              className="ml-2"
-              onClick={changeName}
-            />
+            {editName ? (
+              <FontAwesomeIcon
+                icon={faRightFromBracket}
+                className="ml-2"
+                onClick={changeName}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faPenToSquare}
+                className="ml-2"
+                onClick={changeName}
+              />
+            )}
           </h1>
         </div>
         <div>
