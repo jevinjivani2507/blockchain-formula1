@@ -13,6 +13,16 @@ const PlayerInfo = (props) => {
 
   const [isAdded, setIsAdded] = useState(false);
 
+  useEffect(() => {
+    selectdPlayers.forEach((player) => {
+      if (player.id === props.id) {
+        setIsAdded(true);
+      }
+    });
+  }, [selectdPlayers]);
+
+  // props.id === selectdPlayers.id ? (setIsAdded(true)) : (setIsAdded(false));
+
   const fivePlayers = () => toast.error("You can't add more then 5 Players!");
   const maximumLimit = () => toast.error("Maximum Limit Exceeded!");
 
@@ -21,13 +31,12 @@ const PlayerInfo = (props) => {
     if (!isAdded) {
       // console.log(props);
       if (selectdPlayers.length + 1 <= 5) {
-        if(totalPoints + props.price <1000){
+        if (totalPoints + props.price < 1000) {
           dispatch({ type: ADD_TO_CART, payload: props });
           setIsAdded(!isAdded);
-        }else{
+        } else {
           maximumLimit();
         }
-          
       } else {
         fivePlayers();
       }

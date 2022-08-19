@@ -15,7 +15,15 @@ const ConstructorInfo = (props) => {
 
   const [isAdded, setIsAdded] = useState(false);
 
-  const fivePlayers = () => toast.error("You can't add more then 5 Players!");
+  useEffect(() => {
+    selectdConstructor.forEach((constructor) => {
+      if (constructor.id === props.id) {
+        setIsAdded(true);
+      }
+    });
+  }, [selectdConstructor]);
+
+  const fivePlayers = () => toast.error("You can't add more then 1 Constructor!");
   const maximumLimit = () => toast.error("Maximum Limit Exceeded!");
 
   const addPlayer = (e) => {

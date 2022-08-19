@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import fetchProducts from "../utilities/api";
 import Card from "./Card";
 import { ethers } from "ethers";
-import { Progress, Button, Modal } from "@nextui-org/react";
+import { Progress, Button, Modal, Input } from "@nextui-org/react";
 import F1FantacyTeam from "../contracts/F1FantacyTeam.json";
 import config from "../config";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 const PlayerCart = () => {
   //metamask config
@@ -55,10 +58,7 @@ const PlayerCart = () => {
     setDisplayList("constructors");
   };
 
-  
-
   const submitTeam = async () => {
-
     let team = {};
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -83,30 +83,39 @@ const PlayerCart = () => {
     team.name = "F1FantacyTeam1";
     team.player = (await provider.listAccounts())[0];
 
-    const transaction = await f1FantacyTeam.participate(team, {value: joiningFees});
-    console.log(transaction.wait(1))
+    const transaction = await f1FantacyTeam.participate(team, {
+      value: joiningFees,
+    });
+    console.log(transaction.wait(1));
     const transactionReceipt = await transaction.wait(1);
     const player = transactionReceipt.events[0].args.player;
     const fantacyTeam = transactionReceipt.events[0].args.fantacyTeam;
 
-    console.log("Player : " , player);
+    console.log("Player : ", player);
     // console.log(fantacyTeam);
+  };
 
+  const [teamName, setTeamName] = useState("Team Name");
+  const [editName, setEditName] = useState(false);
+
+  const changeName = () => {
+    setEditName(!editName);
   };
 
   useEffect(() => {
-    // console.log(fetchProducts());
     fetchProducts(dispatch);
-    // console.log(playersList);
-    // console.log(constructorList);
   }, []);
 
   return (
     <div className="flex p-10 gap-10 h-[92vh]">
       <div className="w-8/12 bg-white overflow-scroll scrollbar-hide rounded-3xl">
         <div className="top-0 sticky h-40 mb-2">
-          <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex items-center justify-center">
+          <header className="h-[70%] bg-gray-300 rounded-t-[28px] p-5 flex flex-col items-center justify-center">
+            <div className="">
+              <h6 className="text-2xl font-bold">{1000 - totalPoints}/1000</h6>
+            </div>
             <Progress value={totalPoints / 10} color="primary" />
+            
           </header>
           <div className="flex justify-center h-[30%] bg-gray-200 items-center">
             <Button.Group size="sm">
@@ -142,7 +151,18 @@ const PlayerCart = () => {
 
       <div className="w-4/12 bg-primary rounded-3xl p-10">
         <div className="flex justify-center">
-          <h1 className="text-white text-2xl">Team Name</h1>
+          <h1 className="text-white text-2xl">
+            {editName ? (
+              <Input animated={false} initialValue={teamName} color="error" />
+            ) : (
+              teamName
+            )}
+            <FontAwesomeIcon
+              icon={faPenToSquare}
+              className="ml-2"
+              onClick={changeName}
+            />
+          </h1>
         </div>
         <div>
           <div className="flex justify-center flex-wrap">
